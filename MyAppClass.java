@@ -29,7 +29,7 @@ import java.util.*;
  */
 class MyAppClass extends JPanel 
 {
-    // Variable Declaration
+    // Variable Declarations
     
     // Location Variables
     int intX;
@@ -66,6 +66,8 @@ class MyAppClass extends JPanel
     int intNewLowBar;
     int intNewHighBar;
     boolean blnDivideList;
+    boolean blnFirstClick = false;
+    boolean blnNextStep;
     
     public class MyKeyListener implements KeyListener
     {
@@ -96,12 +98,6 @@ public void keyPressed(KeyEvent e)
                     }
                     else
                     {
-                    	//if(start == end) 
-                    	//{
-                    		//start = null;
-                    		//end = null;
-                    	//}
-                    	//end = LinkedList.linkDelete(end, start);
                         linkDelete(end,start);
                     }
                 }
@@ -213,18 +209,20 @@ public void keyPressed(KeyEvent e)
                if(e.getKeyCode() == '1') 
                {
             	   int intTempLength;
-            	   // Go through the array and swap the lengths of the bars
+            	   // Goes through the array ONCE 
             	   for(int i = 0; i < array.length - 1; i++) 
             	   {
+            		   // Comparing the sizes of the bars
             		   if(array[i].getLength() > array[i + 1].getLength()) 
             		   {
+            			   // Swaps the bars
             			   intTempLength = array[i].getLength();
             			   array[i].setLength(array[i + 1].getLength());
             			   array[i + 1].setLength(intTempLength);
             		   }
             	   }
                }
-               
+               // Resetting all variables and randomizing sizes of bars
                else if(e.getKeyCode() == '2') 
                {
                    intX = 100;
@@ -239,57 +237,43 @@ public void keyPressed(KeyEvent e)
                    		intX += 50;
                    }
                }
+               // Returning to exit screen
                else if(e.getKeyCode() == 'E') 
                {
             	  intScreen = 0; 
                }
             }
             
-            // Selection Sort
+            // Insertion Sort
             else if (intScreen == 6)
             {
             	if(e.getKeyCode() == '1') 
             	{
-            		boolean blnNewMin = false;
-            		// checking that the index hasn't reached the end of the array
-            		if(intIndex < array.length - 1) 
+            		// Incrementing index (starting at 1, since starting at 0 is a waste of a step)
+            		intIndex++;
+            		// Going through the array from intIndex to the end of the array
+            		if(intIndex < array.length) 
             		{
-            			// Variable Declaration
-            			int intTempLength = 0;
-            			int intMin = intIndex;
-            			int intCheckLength = array[intMin].getLength();
-            			int intMinValue = intMin;
-            			// Going through the array, from the min and replacing it with the next min value
-            			for(int i = intMin; i < array.length; i++) 
+            			// Holding the length of the bar at intIndex
+            			int intKey = array[intIndex].getLength();
+            			int j = intIndex - 1;
+            			
+            			// Compare the intIndex length to all bars before it and shifting the larger bars righwards
+            			while(j >= 0 && array[j].getLength() > intKey) 
             			{
-            				if(array[i].getLength() < intCheckLength) 
-            				{
-            					intMinValue = i;
-            					intCheckLength = array[intMinValue].getLength();
-            					blnNewMin = true;
-            				}
+            				array[j + 1].setLength(array[j].getLength());
+            				j = j - 1;
             			}
-            			// Swapping the new minimum with the old
-            			if(blnNewMin == true) 
-            			{
-            				intTempLength = array[intMinValue].getLength();
-            				array[intMinValue].setLength(array[intMin].getLength());
-            				array[intMin].setLength(intTempLength);
-            				blnNewMin = false;
-            			}
-            			// Updating index
-            			intIndex++;
-            		}
-            		else 
-            		{
-            			intIndex = 0;
+            			// Length of bar intIndex is now at sorted spot
+            			array[j + 1].setLength(intKey);
             		}
             	}
+            	// Resetting all variables and randomizing sizes of bars
             	else if(e.getKeyCode() == '2') 
             	{
+            		intIndex = 0;
                     intX = 100;
                     intY = 400;
-                    intIndex = 2;
                     Random r = new Random();
                     Bars b;
                     for(int i = 0; i < 10; i++) 
@@ -300,47 +284,46 @@ public void keyPressed(KeyEvent e)
                     	intX += 50;
                     }
             	}
+            	// Returning to exit screen
             	else if(e.getKeyCode() == 'E')
             	{
             		intScreen = 0;
             	}
             }
             
-            // Insertion Sort
+            // Selection Sort
             else if (intScreen == 7)
             {
             	if(e.getKeyCode() == '1') 
             	{
-            		// checking to see if the index has reached the end of the list
+            		// Incrementing Step Variable
+            		intIndex++;
+            		// Ensuring our index never goes beyond scope of the array
             		if(intIndex < array.length) 
             		{
-            			// Variable Declaration
-            			int intTempLength;
-            			int intKey = array[intIndex].getLength();
-            			int j = intIndex - 1;
-            			intIndex++;
-            			// Going through the array while making sure we havent reached the key yet
-            			while(j >= 0 && array[j].getLength() > intKey) 
+            			// Our minimum value is our starting value
+            			int intMinIndex = intIndex;
+            			// Go through the rest of the array
+            			for(int j = intIndex + 1; j < array.length; j++) 
             			{
-            				// Swapping the bar lengths
-            				intTempLength = array[j].getLength();
-            				array[j + 1].setLength(intTempLength);
-            				j--;
+            				// If any index has a smaller length than the length of intMinIndex, intMinIndex is changed
+            				if(array[j].getLength() < array[intMinIndex].getLength())
+            				{
+            					intMinIndex = j;
+            				}
             			}
-            			// Setting the bar length to that of the key
-            			array[j+ 1].setLength(intKey);
-            		}
-            		else 
-            		{
-            			// resetting index back to the normal
-            			intIndex = 2;
+            			
+            			// Swap the intIndex length with the smallest bar length found in the right side of the array
+            			int tempLength = array[intMinIndex].getLength();
+            			array[intMinIndex].setLength(array[intIndex].getLength());
+            			array[intIndex].setLength(tempLength);
             		}
             	}
             	else if(e.getKeyCode() == '2') 
             	{
                     intX = 100;
                     intY = 400;
-                    intIndex = 0;
+                    intIndex = -1;
                     Random r = new Random();
                     Bars b;
                     for(int i = 0; i < 10; i++) 
@@ -351,6 +334,7 @@ public void keyPressed(KeyEvent e)
                     	intX += 50;
                     }
             	}
+            	// Returning to main screen
             	else if(e.getKeyCode() == 'E')
             	{
             		intScreen = 0;
@@ -362,15 +346,13 @@ public void keyPressed(KeyEvent e)
             {
             	if(e.getKeyCode() == '1') 
             	{
-            		if(blnDivideList == false) 
+            		if(blnFirstClick == false)
             		{
-            			quickSort(0, array.length - 1);
+            		// Add code here to shuffle the bars before sorting ** ensures performances quality
+            		sort(0, array.length - 1);
             		}
-            		else 
-            		{
-            			quickSort(0, intNewHighBar);
-            			quickSort(intNewLowBar, array.length - 1);
-            		}
+            		blnNextStep = true;
+            		
             	}
             	else if(e.getKeyCode() == '2') 
             	{
@@ -390,6 +372,62 @@ public void keyPressed(KeyEvent e)
                     }
             	}
             	else if(e.getKeyCode() == 'E')
+            	{
+            		intScreen = 0;
+            	}
+            }
+            
+            // Merge Sort
+            else if(intScreen == 9) 
+            {
+            	if(e.getKeyCode() == '1') 
+            	{
+            		
+            	}
+            	else if(e.getKeyCode() == '2') 
+            	{
+                	intX = 100;
+                    intY = 400;
+                    intScreen = 9;
+                    Random r = new Random();
+                    Bars b;
+                    for(int i = 0; i < 10; i++) 
+                    {
+                    	int intRandom = r.nextInt(201) + 20;
+                    	b = new Bars(intX, intY, intRandom, 10);
+                    	array[i] = b;
+                    	intX += 50;
+                    }
+            	}
+            	else if(e.getKeyCode() == 'E') 
+            	{
+            		intScreen = 0;
+            	}
+            }
+            
+            // Shell Sort
+            else if(intScreen == 10) 
+            {
+            	if(e.getKeyCode() == '1') 
+            	{
+            		
+            	}
+            	else if(e.getKeyCode() == '2') 
+            	{
+                	intX = 100;
+                    intY = 400;
+                    intScreen = 9;
+                    Random r = new Random();
+                    Bars b;
+                    for(int i = 0; i < 10; i++) 
+                    {
+                    	int intRandom = r.nextInt(201) + 20;
+                    	b = new Bars(intX, intY, intRandom, 10);
+                    	array[i] = b;
+                    	intX += 50;
+                    }
+            	}
+            	else if(e.getKeyCode() == 'E') 
             	{
             		intScreen = 0;
             	}
@@ -478,9 +516,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             // Selection Sort setup
             else if (e.getKeyCode() == '6')
             {
+            	intIndex = 0;
                 intX = 100;
                 intY = 400;
-                intIndex = 2;
                 intScreen = 6;
                 Random r = new Random();
                 Bars b;
@@ -498,7 +536,7 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             {
                 intX = 100;
                 intY = 400;
-                intIndex = 0;
+                intIndex = -1;
                 intScreen = 7;
                 Random r = new Random();
                 Bars b;
@@ -519,7 +557,38 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
                 intScreen = 8;
                 intNewLowBar = 0;
                 intNewHighBar = 0;
-                blnDivideList = false;
+                Random r = new Random();
+                Bars b;
+                for(int i = 0; i < 10; i++) 
+                {
+                	int intRandom = r.nextInt(201) + 20;
+                	b = new Bars(intX, intY, intRandom, 10);
+                	array[i] = b;
+                	intX += 50;
+                }
+            }
+            // Merge Sort setup
+            else if(e.getKeyCode() == '9') 
+            {
+            	intX = 100;
+                intY = 400;
+                intScreen = 9;
+                Random r = new Random();
+                Bars b;
+                for(int i = 0; i < 10; i++) 
+                {
+                	int intRandom = r.nextInt(201) + 20;
+                	b = new Bars(intX, intY, intRandom, 10);
+                	array[i] = b;
+                	intX += 50;
+                }
+            }
+            // Shell Sort setup
+            else if(e.getKeyCode() == 'S') 
+            {
+            	intX = 100;
+                intY = 400;
+                intScreen = 10;
                 Random r = new Random();
                 Bars b;
                 for(int i = 0; i < 10; i++) 
@@ -565,8 +634,14 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             // Main Menu
             if (intScreen == 0)
             {
+            	// Title
                 me.setFont(new Font("Serif",Font.BOLD,36));
-                me.drawString("A Little Bit of Everything", 275, 100);
+                me.drawString("A Little Bit of Everything", 275, 50);
+                // Subtitles
+            	me.setFont(new Font("Serif",Font.ITALIC, 36));
+                me.drawString("ADT Structures", 100, 130);
+                me.drawString("Elementary Sorts", 500, 130);
+                // Options
                 me.setFont(new Font("Serif",Font.PLAIN,36));
                 me.drawString("Press 1 for Linked List",100,200);
                 me.drawString("Press 2 for Stack",100,300);
@@ -576,6 +651,8 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
                 me.drawString("Press 6 for Insertion Sort",500,300);
                 me.drawString("Press 7 for Selection Sort",500,400);
                 me.drawString("Press 8 for Quick Sort",500,500);   
+                me.drawString("Press 9 for Merge Sort", 500, 600);
+                me.drawString("Press S for Shell Sort", 500, 700);
             }
             
             // Linked List
@@ -693,7 +770,33 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
                 {
                 	g.fillRect(array[i].getX(), array[i].getY(), array[i].getWidth(), array[i].getLength());
                 }
-            }         
+            }
+            // Merge Sort
+            else if(intScreen == 9) 
+            {
+                me.clearRect(1000, 1000, 1000, 1000); 
+                me.drawString("Press 1 to Start Sort",100,200);
+                me.drawString("Press 2 to Reset", 100, 250);
+                me.drawString("Press E to go back",100,300);
+                
+                for (int i = 0; i < array.length; i++)
+                {
+                	g.fillRect(array[i].getX(), array[i].getY(), array[i].getWidth(), array[i].getLength());
+                }
+            }
+            // Shell Sort
+            else if(intScreen == 10) 
+            {
+                me.clearRect(1000, 1000, 1000, 1000); 
+                me.drawString("Press 1 to Start Sort",100,200);
+                me.drawString("Press 2 to Reset", 100, 250);
+                me.drawString("Press E to go back",100,300);
+                
+                for (int i = 0; i < array.length; i++)
+                {
+                	g.fillRect(array[i].getX(), array[i].getY(), array[i].getWidth(), array[i].getLength());
+                }
+            }
         }     
         
         public void paint(Graphics g) 
@@ -822,35 +925,37 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
         	return g;
         }
         
-        public void quickSort(int low, int high)
+        public int partition(int low, int high) 
         {
-        	// Variable Declaration
-        	int i = low;
-        	int j = high;
-        	int intTempLength;
-        	int pivot = array[low + (high-low)/2].getLength();
+        	int pivot = array[high].getLength();
+        	int i = low - 1;
         	
-        	while(i <= j) 
+        	for(int j = low; j < high; j++) 
         	{
-        		while(array[j].getLength() > pivot) 
-        		{
-        			j--;
-        		}
-        		while(array[i].getLength() < pivot) 
+        		if(array[j].getLength() < pivot) 
         		{
         			i++;
-        		}
-        		if(i <= j) 
-        		{
-        			intTempLength = array[i].getLength();
+      
+        			int temp = array[i].getLength();
         			array[i].setLength(array[j].getLength());
-        			array[j].setLength(intTempLength);
-        			i++;
-        			j--;
+        			array[j].setLength(temp);
         		}
         	}
-        	intNewHighBar = j;
-        	intNewLowBar = i;
-        	blnDivideList = true;
+        	
+        	int temp = array[i + 1].getLength();
+        	array[i + 1].setLength(array[high].getLength());
+        	array[high].setLength(temp);
+        	return i + 1;
+        }
+        
+        public void sort(int low, int high)
+        {
+        	if(low < high)
+        	{
+        		int pi = partition(low, high);
+        		
+        		sort(low, pi - 1);
+        		sort(pi + 1, high);
+        	}
         }
     }

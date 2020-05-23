@@ -349,7 +349,7 @@ public void keyPressed(KeyEvent e)
             		if(blnFirstClick == false)
             		{
             		// Add code here to shuffle the bars before sorting ** ensures performances quality
-            		sort(0, array.length - 1);
+            		Quicksort(0, array.length - 1);
             		}
             		blnNextStep = true;
             		
@@ -382,7 +382,8 @@ public void keyPressed(KeyEvent e)
             {
             	if(e.getKeyCode() == '1') 
             	{
-            		
+            		// Left index = 0, Right index = 9
+            		Mergesort(0, array.length - 1);
             	}
             	else if(e.getKeyCode() == '2') 
             	{
@@ -410,13 +411,21 @@ public void keyPressed(KeyEvent e)
             {
             	if(e.getKeyCode() == '1') 
             	{
-            		
+            		// Ensuring the index never falls below 0
+            		if(intIndex > 0) 
+            		{
+            			// Reducing the gap size by half
+            			intIndex /= 2;
+            			// Running the shell sorting algorithm
+            			Shellsort();
+            		}
             	}
             	else if(e.getKeyCode() == '2') 
             	{
                 	intX = 100;
                     intY = 400;
-                    intScreen = 9;
+                    intScreen = 10;
+                    intIndex = array.length;
                     Random r = new Random();
                     Bars b;
                     for(int i = 0; i < 10; i++) 
@@ -589,6 +598,7 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             	intX = 100;
                 intY = 400;
                 intScreen = 10;
+                intIndex = array.length;
                 Random r = new Random();
                 Bars b;
                 for(int i = 0; i < 10; i++) 
@@ -659,6 +669,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 1)
             {
                 me.clearRect(1000, 1000, 1000, 1000);
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Linked List", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to add a Node", 100, 200);
                 me.drawString("Press 2 to remove a Node", 100, 250);
                 me.drawString("Press E to go back", 100, 300);
@@ -675,6 +688,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 2)
             {
                 me.clearRect(1000, 1000, 1000, 1000);
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Stack", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to 'Push'", 100, 200);
                 me.drawString("Press 2 to 'Pop'", 100, 250);
                 me.drawString("Press E to go back", 100, 300);
@@ -691,6 +707,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 3)
             {
                 me.clearRect(1000, 1000, 1000, 1000);
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Queue", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to 'Enqueue'", 100, 200);
                 me.drawString("Press 2 to 'Dequeue'", 100, 250);
                 me.drawString("Press E to go back", 100, 300);
@@ -707,6 +726,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 4)
             {
                 me.clearRect(1000, 1000, 1000, 1000);
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Binary Tree", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Add", 100, 200);
                 me.drawString("Press E to go back", 100, 250);
                 bTemp = bRoot;
@@ -720,6 +742,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 5)
             {
                 me.clearRect(1000, 1000, 1000, 1000);
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Bubble Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -734,6 +759,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 6)
             {
                 me.clearRect(1000, 1000, 1000, 1000);   
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Selection Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -747,7 +775,10 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             // Insertion Sort
             else if (intScreen == 7)
             {
-                me.clearRect(1000, 1000, 1000, 1000);  
+                me.clearRect(1000, 1000, 1000, 1000); 
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Insertion Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -762,6 +793,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if (intScreen == 8)
             {
                 me.clearRect(1000, 1000, 1000, 1000); 
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Quick Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -775,6 +809,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if(intScreen == 9) 
             {
                 me.clearRect(1000, 1000, 1000, 1000); 
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Merge Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -788,6 +825,9 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
             else if(intScreen == 10) 
             {
                 me.clearRect(1000, 1000, 1000, 1000); 
+                me.setFont(new Font("Serif",Font.BOLD,36));
+                me.drawString("Shell Sorting", 375, 50);
+                me.setFont(new Font("Serif",Font.PLAIN,18));
                 me.drawString("Press 1 to Start Sort",100,200);
                 me.drawString("Press 2 to Reset", 100, 250);
                 me.drawString("Press E to go back",100,300);
@@ -924,7 +964,7 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
         	}
         	return g;
         }
-        
+        // Finding the paritions of the array
         public int partition(int low, int high) 
         {
         	int pivot = array[high].getLength();
@@ -947,15 +987,105 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
         	array[high].setLength(temp);
         	return i + 1;
         }
-        
-        public void sort(int low, int high)
+        // Sorts the partitions of the array
+        public void Quicksort(int low, int high)
         {
         	if(low < high)
         	{
         		int pi = partition(low, high);
         		
-        		sort(low, pi - 1);
-        		sort(pi + 1, high);
+        		Quicksort(low, pi - 1);
+        		Quicksort(pi + 1, high);
+        	}
+        }
+        // Merges the two sub arrays of the original array
+        public void merge(int l, int m, int r) 
+        {
+        	// Finding the sizes of the two sub arrays
+        	int sizeSubOne = m - l + 1;
+        	int sizeSubTwo = r - m;
+        	
+        	// Creating the sub arrays with their corresponding sizes
+        	int subOne[] = new int[sizeSubOne];
+        	int subTwo[] = new int[sizeSubTwo];
+        	
+        	// Copy the data into the two temp sub arrays
+        	for(int i = 0; i < sizeSubOne; i++) 
+        	{
+        		subOne[i] = array[l + i].getLength();
+        	}
+        	for(int j = 0; j < sizeSubTwo; j++) 
+        	{
+        		subTwo[j] = array[m + 1 + j].getLength();
+        	}
+        	// Initial indexes of 1st and 2nd sub arrays
+        	int i = 0;
+        	int j = 0;
+        	// Initial index of merged array
+        	int k = l;
+        	while(i < sizeSubOne && j < sizeSubTwo) 
+        	{
+        		if(subOne[i] <= subTwo[j]) 
+        		{
+        			array[k].setLength(subOne[i]);
+        			i++;
+        		}
+        		else 
+        		{
+        			array[k].setLength(subTwo[j]);
+        			j++;
+        		}
+        		k++;
+        	}
+        	// Filling in any missing blank spots
+        	while(i < sizeSubOne)
+        	{
+        		array[k].setLength(subOne[i]);
+        		i++;
+        		k++;
+        	}
+        	while(j < sizeSubTwo)
+        	{
+        		array[k].setLength(subTwo[j]);
+        		j++;
+        		k++;
+        	}
+        }
+        // Sorting function that sorts the array using merge()
+        public void Mergesort(int l, int r) 
+        {
+        	// Ensuring the left index is smaller than the right index
+        	if(l < r) 
+        	{
+        		// Finding the middle point
+        		int middlePoint = (l + r)/2;
+        		
+        		// Sorting 1st Half
+        		Mergesort(l, middlePoint);
+        		// Sorting 2nd Half
+        		Mergesort(middlePoint + 1, r);
+        		
+        		// Merging the sorted halves
+        		merge(l, middlePoint, r);
+        	}
+        }
+        // Sorting function that sorts the array using the Shell Sort Algorithm
+        public void Shellsort() 
+        {
+        	int length = array.length;
+        	// Doing gapped insertion sort for this gap size
+        	for(int i = intIndex; i < length; i++) 
+        	{
+        		// We remember what the value for our initial index value was
+        		int temp = array[i].getLength();
+        		int j;
+        		// Shift earlier gap-sorted elements until the correct location for array[i] is found
+        		for(j = i; j >= intIndex && array[j - intIndex].getLength() > temp; j-= intIndex) 
+        		{
+        			array[j].setLength(array[j - intIndex].getLength());
+        		}
+        		// Put temp value into its correct position
+        		array[j].setLength(temp);
         	}
         }
     }

@@ -62,10 +62,7 @@ class MyAppClass extends JPanel
     	
     // Bars Variables
     Bars[] array = new Bars[10];
-    int intIndex = 2;
-    int intNewLowBar;
-    int intNewHighBar;
-    boolean blnDivideList;
+    int intIndex = 0;
     boolean blnFirstClick = false;
     boolean blnNextStep;
     
@@ -358,9 +355,6 @@ public void keyPressed(KeyEvent e)
             	{
                     intX = 100;
                     intY = 400;
-                    intNewLowBar = 0;
-                    intNewHighBar = 0;
-                    blnDivideList = false;
                     Random r = new Random();
                     Bars b;
                     for(int i = 0; i < 10; i++) 
@@ -564,8 +558,6 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
                 intX = 100;
                 intY = 400;
                 intScreen = 8;
-                intNewLowBar = 0;
-                intNewHighBar = 0;
                 Random r = new Random();
                 Bars b;
                 for(int i = 0; i < 10; i++) 
@@ -987,6 +979,7 @@ System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
         	array[high].setLength(temp);
         	return i + 1;
         }
+        // Implement 3-way paritioning for quick sort
         // Sorts the partitions of the array
         public void Quicksort(int low, int high)
         {
